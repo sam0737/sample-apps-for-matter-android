@@ -57,7 +57,7 @@ android {
      */
     defaultConfig {
         // Uniquely identifies the package for publishing.
-        applicationId = "com.google.homesampleapp"
+        applicationId = "net.hellosam.mattersample"
 
         // Defines the minimum API level required to run the app.
         minSdk = 27
