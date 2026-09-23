@@ -251,12 +251,9 @@ internal fun HomeRoute(
       homeViewModel.startMonitoringStateChanges()
     }
     // FIXME[TJ]: I had this on fragment's create(). Anything similar to that for composables?
-    // We need our own device attestation delegate as we currently only support attestation
-    // of test Matter devices. This DeviceAttestationDelegate makes it possible to ignore device
-    // attestation failures, which happen if commissioning production devices.
-    // TODO: Look into supporting different Root CAs.
-    // FIXME: This currently breaks commissioning. Removed for now.
-    // homeViewModel.setDeviceAttestationDelegate()
+    // For this sample, continue commissioning if the SDK's test-only attestation verifier
+    // rejects a production device. The UI reports when an attestation failure was ignored.
+    homeViewModel.setDeviceAttestationDelegate()
     onPauseOrDispose {
       // do any needed clean up here
       Timber.d("LifecycleResumeEffect:onPauseOrDispose stopMonitoringStateChanges()")
