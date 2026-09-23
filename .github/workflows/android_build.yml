@@ -44,11 +44,19 @@ jobs:
           --add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED'
           :3p-ecosystem:assembleDefaultDebug :3p-ecosystem:assembleTargetcommissionerDebug
 
-      - name: Upload APKs
-        uses: actions/upload-artifact@v6
+      - name: Upload default APK
+        uses: actions/upload-artifact@v7
         with:
-          name: matter-android-debug-apks
-          path: 3p-ecosystem/build/outputs/apk/*/debug/*.apk
+          path: 3p-ecosystem/build/outputs/apk/default/debug/3p-ecosystem-default-debug.apk
+          archive: false
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload target commissioner APK
+        uses: actions/upload-artifact@v7
+        with:
+          path: 3p-ecosystem/build/outputs/apk/targetcommissioner/debug/3p-ecosystem-targetcommissioner-debug.apk
+          archive: false
           if-no-files-found: error
           retention-days: 14
 
@@ -59,10 +67,11 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v8
         with:
-          name: matter-android-debug-apks
+          pattern: '*.apk'
           path: apks
+          merge-multiple: true
 
       - name: Publish APKs on GitHub Release
         env:
